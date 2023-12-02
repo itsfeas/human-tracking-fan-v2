@@ -1,0 +1,109 @@
+#include <Stepper.h>
+ 
+
+const int stepsPerRevolution = 800;  // change this to fit the number of steps per revolution
+const int DIRPIN = 2;
+const int PULSEPIN = 3;
+const int ENABLE_FAN_PIN = 7;
+const int ENABLE_MOTOR_PIN = 4;
+const int PIN_LEFT = 13;
+const int PIN_RIGHT = 12;
+const int PIN_MIDDLE = 11;
+
+const int RELAY_DELAY = 50;
+const int DISABLE_TIME = 10000;
+const int STEPPER_SPEED = 800;
+// for your motor
+
+// initialize the stepper library on pins 2 through 3:
+Stepper stepperDriver(stepsPerRevolution, DIRPIN, PULSEPIN);
+
+
+void setup() {
+  //set all pins to output
+  pinMode(PIN_LEFT, OUTPUT);
+  pinMode(PIN_RIGHT, OUTPUT);
+  pinMode(PIN_MIDDLE, OUTPUT);
+  pinMode(DIRPIN, OUTPUT);
+  pinMode(PULSEPIN, OUTPUT);
+  pinMode(ENABLE_MOTOR_PIN, OUTPUT);
+  pinMode(ENABLE_FAN_PIN, OUTPUT);
+
+  //enable motor pin
+  digitalWrite(ENABLE_MOTOR_PIN, LOW);
+  digitalWrite(ENABLE_FAN_PIN, LOW);
+  
+  stepperDriver.setSpeed(STEPPER_SPEED);
+  
+  // initialize the serial port:
+  Serial.begin(9600);
+}
+
+void stepLeft(int i) {
+  digitalWrite(ENABLE_MOTOR_PIN, LOW);
+  digitalWrite(PIN_LEFT, HIGH);
+  digitalWrite(PIN_RIGHT, LOW);
+  digitalWrite(PIN_MIDDLE, LOW);
+  delay(RELAY_DELAY);
+  stepperDriver.step(i);
+  digitalWrite(ENABLE_MOTOR_PIN, HIGH);
+}
+
+void stepRight(int i) {
+  digitalWrite(ENABLE_MOTOR_PIN, LOW);
+  digitalWrite(PIN_LEFT, LOW);
+  digitalWrite(PIN_RIGHT, HIGH);
+  digitalWrite(PIN_MIDDLE, LOW);
+  delay(RELAY_DELAY);
+  stepperDriver.step(i);
+  digitalWrite(ENABLE_MOTOR_PIN, HIGH);
+}
+
+void stepMiddle(int i) {
+  digitalWrite(ENABLE_MOTOR_PIN, LOW);
+  digitalWrite(PIN_LEFT, LOW);
+  digitalWrite(PIN_RIGHT, LOW);
+  digitalWrite(PIN_MIDDLE, HIGH);
+  delay(RELAY_DELAY);
+  stepperDriver.step(i);
+  digitalWrite(ENABLE_MOTOR_PIN, HIGH);
+}
+
+void disableAll() {
+  digitalWrite(PIN_LEFT, LOW);
+  digitalWrite(PIN_RIGHT, LOW);
+  digitalWrite(PIN_MIDDLE, LOW);
+  delay(DISABLE_TIME);
+}
+
+void loop() {
+  if (Serial.available()>0){
+//    Serial.print(Serial.readStringUntil('\n'));
+    String message = Serial.readStringUntil('\n');
+    char msgType = message.charAt(0);
+    message = message.substring(1);
+    int steps = message.toInt();
+    if (msgType=='l') steps = -steps;
+    if (msgType=='x') {
+//      Serial.print("x"+message+"\n");
+      if (steps==0)
+          digitalWrite(ENABLE_FAN_PIN, HIGH);
+      else if (steps==1)
+          digitalWrite(ENABLE_FAN_PIN, LOW);
+    }
+    else if (msgType=='l' or msgType=='r') {
+      steps = steps*3;
+      stepLeft(steps*2);
+      stepMiddle(steps);
+      stepRight(steps*2);
+    }
+  }
+//  delay(500);
+//  disableAll();
+//  stepLeft(1600);
+//  delay(500);
+//  stepRight(1600);
+//  stepMiddle(1600);
+//  delay(500);
+//  stepRight(1000);
+}

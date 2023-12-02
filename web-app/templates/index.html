@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width-device-width, initial-scale = 1.0">
+        <title>Human Tracking Fan</title>
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" type="text/css">
+            <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/icon.png') }}"
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="top">
+                <button id="engage" onclick="engageSwitch(this)" class="prettyButton">Engage</button>
+                <button id="engage" onclick="enableFans()" class="prettyButton">Toggle Fans</button>
+            </div>
+            <div class="row">
+                <div class="left">
+                    <button onclick="turnLeft()" class="prettyButton">Left</button>
+                </div>
+                <div class="middle">
+                    <img class="vid" src="{{ url_for('video_feed') }}">
+                </div>
+                <div class="right">
+                    <button onclick="turnRight()" class="prettyButton">Right</button>
+                </div>
+            </div>
+            <!-- <script type="text/javascript" src="js/script.js"></script> -->
+        </div>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/manual_controls.js') }}"></script>
+    </body>
+</html>

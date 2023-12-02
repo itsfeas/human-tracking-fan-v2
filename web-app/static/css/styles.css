@@ -1,0 +1,96 @@
+/* some of these styles were based off of those from https://replit.com/@Bookie0/iClick#index.html */
+html {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.prettyButton {
+	cursor: pointer;
+	text-align: center;
+	background: #0071e3;
+	color: #fff;
+	font-size: 17px;
+	font-family: "Helvetica Neue","Helvetica","Arial",sans-serif;
+	padding-left: 11px;
+	padding-right: 11px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	border-radius: 12px;
+	border: none;
+}
+
+.prettyButton:hover {
+	opacity: 0.7;
+}
+
+.prettyButton:active {
+	box-shadow: 0 1px 1px 0 #666666;
+	border-radius: 20px;
+}
+
+.main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.vid {
+    max-width: 100%;
+}
+
+.top {
+    display: flex;
+    /* flex: 20vh; */
+    flex-grow: 1;
+    flex-wrap: wrap;
+    height: 20%;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    flex: 80vh;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    height: 80%;
+    
+    justify-content: center;
+    align-items: center;
+}
+
+
+.left {
+    /* height: 600px; */
+    text-align: center;
+    float: left;
+    width: 15%;
+}
+
+.right {
+    /* height: 600px; */
+    text-align: center;
+    vertical-align: middle;
+    float: right;
+    width: 15%;
+}
+
+.middle {
+    /* height: 600px; */
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    width: 70%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
